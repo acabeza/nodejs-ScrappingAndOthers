@@ -1,0 +1,150 @@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<style>
+table, tr, td, th {border: black solid 1px;}
+#div{flex-direction: row; display: flex;}
+.divTable{display: flex; flex-direction: column; padding-left: 30px;}
+</style>
+<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+</style>
+
+{% for (i=0;i <BLOCKER.length; i++) { %}
+<span class="BLOCKER" style="visibility: hidden;">{{BLOCKER[i]}}</span>
+{% } %}
+{% for (i=0;i <CRITICAL.length; i++) { %}
+<span class="CRITICAL" style="visibility: hidden;">{{CRITICAL[i]}}</span>
+{% } %}
+{% for (i=0;i <MAJOR.length; i++) { %}
+<span class="MAJOR" style="visibility: hidden;">{{MAJOR[i]}}</span>
+{% } %}
+{% for (i=0;i <FECHA.length; i++) { %}
+<span class="FECHA" style="visibility: hidden;">{{FECHA[i]}}</span>
+{% } %}
+<div id="div">
+<div class="divTable">
+     <h2>HOY: {{FECHA[4]}}</h2>
+<table>
+     
+     <tr>
+          <th>BLOCKER </th><td> {{BLOCKER[0]}} </td>
+     </tr>
+     <tr>
+         <th>CRITICAL </th> <td> {{CRITICAL[0]}} </td>
+     </tr>
+     <tr>
+          <th>MAJOR </th><td> {{MAJOR[0]}} </td>
+     </tr>
+</table>
+</div>
+<div class="divTable">
+     <h2>HACE 7 DIAS: {{FECHA[3]}}</h2>
+<table>
+     
+     <tr>
+          <th>BLOCKER </th><td> {{BLOCKER[4]}} </td>
+     </tr>
+     <tr>
+         <th>CRITICAL </th> <td>{{CRITICAL[4]}}</td>
+     </tr>
+     <tr>
+          <th>MAJOR </th><td> {{MAJOR[4]}} </td>
+     </tr>
+</table>
+</div>
+</div>
+<div style="width: 80%;">
+     <canvas id="myChart"></canvas>
+</div>
+<div id="div2"></div>
+<h2>ERRORES</h2>
+<table>
+    
+     {% for (i=0;i <RULEDATA.length; i++) { %}
+     <tr>
+          <th> {{RULENAME[i]}} </th><td> {{RULEDATA[i].count}} </td>
+     </tr>
+     {% } %}
+</table>
+</div>
+
+
+<script>
+var chartColors = {
+	red: 'rgb(255, 99, 132)',
+	orange: 'rgb(255, 159, 64)',
+	yellow: 'rgb(255, 205, 86)',
+	green: 'rgb(75, 192, 192)',
+	blue: 'rgb(54, 162, 235)',
+	purple: 'rgb(153, 102, 255)',
+	grey: 'rgb(201, 203, 207)'
+};
+var ctx = document.getElementById("myChart");
+var blocker = document.querySelectorAll(".BLOCKER");
+var critical = document.querySelectorAll(".CRITICAL");
+var major = document.querySelectorAll(".MAJOR");
+var time  = document.querySelectorAll(".FECHA");
+
+var myChart = new Chart(ctx, {
+     type: 'line',
+     data: {
+     labels: [time[0].textContent, time[1].textContent, time[2].textContent, time[3].textContent,time[4].textContent],
+     datasets: [
+          {
+            label: 'BLOCKER',
+            data: [blocker[1].textContent, blocker[2].textContent, blocker[3].textContent, blocker[4].textContent, blocker[0].textContent],
+            fill:false,
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            borderWidth: 3 
+        }, 
+        {
+            label: 'CRITICAL',
+            data: [critical[1].textContent, critical[2].textContent, critical[3].textContent, critical[4].textContent, critical[0].textContent],
+            fill:false,
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
+            borderWidth: 3
+        }, 
+        {
+            label: 'MAJOR',
+            data: [major[1].textContent, major[2].textContent, major[3].textContent, major[4].textContent, major[0].textContent],
+            fill:false,
+            backgroundColor: window.chartColors.green,
+            borderColor: window.chartColors.green,
+            borderWidth: 3
+        }],
+    },
+    options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'DATOS DE SONARQUBE'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'VALORES'
+						}
+					}]
+    
+                    }	}
+
+});
+
+
+</script>

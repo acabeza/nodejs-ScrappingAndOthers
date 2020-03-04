@@ -1,0 +1,50 @@
+
+<style>
+table, tr, td, th {border: black solid 1px;}
+#div{flex-direction: row; display: flex;}
+.divTable{display: flex; flex-direction: column; padding-left: 30px;}
+</style>
+<div id="div">
+<div class="divTable">
+     <h2>HOY: {{FECHA[4]}}</h2>
+<table>
+     
+     <tr>
+          <th>BLOCKER </th><td> {{BLOCKER[0]}} </td>
+     </tr>
+     <tr>
+         <th>CRITICAL </th> <td> {{CRITICAL[0]}} </td>
+     </tr>
+     <tr>
+          <th>MAJOR </th><td> {{MAJOR[0]}} </td>
+     </tr>
+</table>
+</div>
+<div class="divTable">
+     <h2>HACE 7 DIAS: {{FECHA[3]}}</h2>
+<table>
+     
+     <tr>
+          <th>BLOCKER </th><td> {{BLOCKER[4]}} </td>
+     </tr>
+     <tr>
+         <th>CRITICAL </th> <td>{{CRITICAL[4]}}</td>
+     </tr>
+     <tr>
+          <th>MAJOR </th><td> {{MAJOR[4]}} </td>
+     </tr>
+</table>
+</div>
+</div>
+
+<div id="div2"></div>
+<h2>ERRORES</h2>
+<table>
+    
+     {% for (i=0;i <RULEDATA.length; i++) { %}
+     <tr>
+          <th> {{RULENAME[i]}} </th><td> {{RULEDATA[i].count}} </td>
+     </tr>
+     {% } %}
+</table>
+</div>
